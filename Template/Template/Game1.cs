@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using System.Collections.Generic;
 namespace Template
 {
     /// <summary>
@@ -13,7 +13,9 @@ namespace Template
         SpriteBatch spriteBatch;
         Texture2D xwing;
         Vector2 xwingPos = new Vector2(100, 300);
-        KeyboardState kstate;
+        List<Vector2> xwingBulletPos = new List<Vector2>();
+        KeyboardState KNewState;
+        KeyboardState k0ldState;
                     
 
         //KOmentar
@@ -67,17 +69,25 @@ namespace Template
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            kstate = Keyboard.GetState();
+            KNewState = Keyboard.GetState();
             // TODO: Add your update logic here
 
-            if (kstate.IsKeyDown(Keys.Right))
+            if (KNewState.IsKeyDown(Keys.Right))
                 xwingPos.X += 10;
-            if (kstate.IsKeyDown(Keys.Left))
+            if (KNewState.IsKeyDown(Keys.Left))
                 xwingPos.X -= 10;
 
+            if (KNewState.IsKeyDown(Keys.Space) && k0ldState.IsKeyUp(Keys.Space))
+            {
+                xwingBulletPos.Add(xwingPos);
+            }
 
+            for(int i = 0; i < xwingBulletPos.Count; i++)
+            {
+                xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0,1);
+            }
 
-
+            k0ldState = KNewState;
 
             base.Update(gameTime);
 
@@ -96,6 +106,15 @@ namespace Template
             spriteBatch.Begin();
 
             spriteBatch.Draw(xwing, xwingPos, Color.White);
+            foreach (Vector2 bulletPos in xwingBulletPos)
+            {
+                Rectangle rec = new Rectangle();
+                rec.Location = bulletPos.ToPoint();
+                rec.Size = new Point(10, 10);
+
+
+                spriteBatch.Draw(xwing, rec, Color.Red);
+            }
 
             spriteBatch.End();
 
