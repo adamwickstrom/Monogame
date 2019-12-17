@@ -46,7 +46,7 @@ namespace Template
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            xwing = Content.Load<Texture2D>("xwing(1)");
+            xwing = Content.Load<Texture2D>("xwing");
 
             // TODO: use this.Content to load your game content here 
         }
@@ -67,7 +67,9 @@ namespace Template
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //  Exit();
+            if (KNewState.IsKeyDown(Keys.Escape))
                 Exit();
             KNewState = Keyboard.GetState();
             // TODO: Add your update logic here
