@@ -12,7 +12,7 @@ namespace Template
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D xwing;
-        Vector2 xwingPos = new Vector2(100, 300);
+        Vector2 xwingPos = new Vector2(100, 350);
         List<Vector2> xwingBulletPos = new List<Vector2>();
         KeyboardState KNewState;
         KeyboardState k0ldState;
@@ -74,19 +74,24 @@ namespace Template
             KNewState = Keyboard.GetState();
             // TODO: Add your update logic here
 
+
+            
             if (KNewState.IsKeyDown(Keys.Right))
-                xwingPos.X += 10;
+                if (xwingPos.X < 700)
+                    xwingPos.X += 10;
             if (KNewState.IsKeyDown(Keys.Left))
-                xwingPos.X -= 10;
+                if(xwingPos.X > 0)
+                    xwingPos.X -= 10;
 
             if (KNewState.IsKeyDown(Keys.Space) && k0ldState.IsKeyUp(Keys.Space))
             {
-                xwingBulletPos.Add(xwingPos);
+                xwingBulletPos.Add(xwingPos + new Vector2(2,27));
+                xwingBulletPos.Add(xwingPos + new Vector2(xwing.Width - 11, 27));
             }
 
             for(int i = 0; i < xwingBulletPos.Count; i++)
             {
-                xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0,1);
+                xwingBulletPos[i] = xwingBulletPos[i] - new Vector2(0,5);
             }
 
             k0ldState = KNewState;
